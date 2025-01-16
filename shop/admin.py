@@ -12,6 +12,12 @@ class ProductVideoInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline, ProductVideoInline]
 
-admin.site.register(Category)
+# Admin class for Category model
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'image')  # Display category name and image in the list view
+    search_fields = ('name',)
+
+# Register models in admin
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Subcategory)
 admin.site.register(Product, ProductAdmin)
