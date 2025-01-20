@@ -1,8 +1,55 @@
 # shop/views.py
-from django.views.generic import TemplateView, ListView
-from .models import Product
-from .models import Category
+from django.views.generic import TemplateView, ListView, View, DetailView
 import random
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Category, Product, Order, OrderProduct
+
+class CategoryProductsView(ListView):
+    model = Product
+    template_name = 'category-products.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        category = Category.objects.get(id=category_id)
+        return Product.objects.filter(category=category)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs['category_id']
+        category = Category.objects.get(id=category_id)
+        context['category'] = category
+        return context
+
+class SingleProductView(DetailView):
+    model = Product
+    template_name = 'single-product.html'
+    context_object_name = 'product'
+
+    def get_object(self):
+        return Product.objects.get(id=self.kwargs['product_id'])
+
+
+class AddToCartView(View):
+    def post(self, request, *args, **kwargs):
+        product_id = self.kwargs.get('pk')
+        product = get_object_or_404(Product, id=product_id)
+        quantity = request.POST.get('qty', 1)
+
+        # Check if an order exists or create a new one
+        order, created = Order.objects.get_or_create(user=request.user, is_completed=False)
+
+        # Add product to the order
+        order_product, created = OrderProduct.objects.get_or_create(order=order, product=product)
+        order_product.quantity += int(quantity)
+        order_product.save()
+
+        return redirect('cart')
+
+class CartView(View):
+    def get(self, request, *args, **kwargs):
+        order = Order.objects.filter(user=request.user, is_completed=False).first()
+        return render(request, 'cart.html', {'order': order})
 
 class CategoryProductsView(ListView):
     model = Product
