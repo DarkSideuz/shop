@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ category.name }} Products
+{% endblock %}
+
+{% block content %}
+    {% include 'components/banner.html'%}
+    
+    {% include 'components/features.html'%}
+    
+<body id="category">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5">
+                <div class="sidebar-categories">
+                    <div class="head">Browse Categories</div>
+                    <ul class="main-categories">
+                        {% for cat in category.subcategories.all %}
+                        <li class="main-nav-list"><a href="{% url 'category_products' category_id=cat.id %}">{{ cat.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <div class="row">
+                    {% for product in products %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-product">
+                            <img class="img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <div class="product-details">
+                                <h6>{{ product.name }}</h6>
+                                <div class="price">
+                                    <h6>${{ product.price }}</h6>
+                                </div>
+                                <div class="prd-bottom">
+                                    <a href="#" class="social-info">
+                                        <span class="ti-bag"></span>
+                                        <p class="hover-text">add to bag</p>
+                                    </a>
+                                    <a href="#" class="social-info">
+                                        <span class="lnr lnr-heart"></span>
+                                        <p class="hover-text">Wishlist</p>
+                                    </a>
+                                    <a href="#" class="social-info">
+                                        <span class="lnr lnr-sync"></span>
+                                        <p class="hover-text">compare</p>
+                                    </a>
+                                    <a href="#" class="social-info">
+                                        <span class="lnr lnr-move"></span>
+                                        <p class="hover-text">view more</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'components/related.html'%}
+    
+    {% include 'components/footer.html'%}
+</body>
+{% endblock %}

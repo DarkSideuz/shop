@@ -1,6 +1,25 @@
 {% extends 'base.html' %}
 
-{% load static %}
-{% include 'components/features.html' %}
-{% include 'components/banner.html' %}
 
+
+{% block content %}
+
+{% include 'components/header.html'%}
+	
+    {% include 'components/banner.html'%}
+    
+    {% include 'components/features.html'%}
+    
+    {% include 'components/category.html'%}
+    
+    {% include 'components/product.html'%}
+    
+    {% include 'components/exclusives.html'%}
+    
+    {% include 'components/brands.html'%}
+    
+    {% include 'components/related.html'%}
+    
+    {% include 'components/footer.html'%}
+
+{% endblock content %}

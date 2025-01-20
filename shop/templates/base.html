@@ -38,27 +38,15 @@
     <link rel="stylesheet" href="{% static 'https://cdn.jsdelivr.net/npm/linearicons-free@1.0.0/dist/web-fonts.css' %}">
 
 </head>
-
-{% include 'components/head.html'%}
 <body>
 
-	{% include 'components/header.html'%}
+
+	{% block content %}
+	{% endblock content %}
+
 	
-    {% include 'components/banner.html'%}
+
     
-    {% include 'components/features.html'%}
-    
-    {% include 'components/category.html'%}
-    
-    {% include 'components/product.html'%}
-    
-    {% include 'components/exclusives.html'%}
-    
-    {% include 'components/brands.html'%}
-    
-    {% include 'components/related.html'%}
-    
-    {% include 'components/footer.html'%}
 
 </body>
 
