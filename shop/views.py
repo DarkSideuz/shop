@@ -3,6 +3,7 @@ from django.views.generic import TemplateView, ListView, View, DetailView
 import random
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product, Order, OrderProduct
+from django.http import HttpResponse
 
 class CategoryProductsView(ListView):
     model = Product
@@ -109,3 +110,16 @@ class CategoryListView(ListView):
     template_name = '/components/category.html'  
     context_object_name = 'categories'  
     print(model)
+
+def add_to_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    if product_id in cart:
+        cart[product_id] += 1
+    else:
+        cart[product_id] = 1
+    request.session['cart'] = cart
+    return redirect('cart')
+
+def cart(request):
+    cart = request.session.get('cart', {})
+    return render(request, 'cart.html', {'cart': cart})

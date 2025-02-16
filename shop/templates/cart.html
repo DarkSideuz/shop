@@ -15,7 +15,7 @@
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title>Shopping Cart</title>
 
     <!--
             CSS
@@ -31,6 +31,12 @@
 </head>
 
 <body>
+    <h1>Your Cart</h1>
+    <ul>
+        {% for product_id, quantity in cart.items %}
+            <li>Product ID: {{ product_id }} - Quantity: {{ quantity }}</li>
+        {% endfor %}
+    </ul>
 
     <!-- Start Header Area -->
 	<header class="header_area sticky-header">
